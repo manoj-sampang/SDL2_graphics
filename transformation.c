@@ -45,6 +45,20 @@ void translation(float dx, float dy) {
             printf("\n");
         }   
 }
+void rotation(float theta) {
+    float rotateMatrix[3][3] = {
+        {cos(theta), -sin(theta), 0},
+        {sin(theta), cos(theta), 0},
+        {0, 0, 1}
+    };
+    printf("Rotated Matrix:\n");
+    for(int i = 0; i < 3; ++i) {
+        for(int j = 0; j < 3; ++j) {            
+            printf("%f ", rotateMatrix[i][j]);
+        }
+        printf("\n"); 
+    }
+}
 void scaling(float sx, float sy) {
     //scaling matrix
     float scalingMatrix[3][3] = {
@@ -64,4 +78,28 @@ void drawTriangle(SDL_Renderer *renderer, int x1, int y1, int x2, int y2, int x3
     DDA(renderer, x1, y1, x2, y2);
     DDA(renderer, x2, y2, x3, y3);
     DDA(renderer, x3, y3, x1, y1);
+}
+
+
+void DDA(SDL_Renderer *renderer, int x0, int y0, int x1, int y1) {
+    int steps, dx, dy;
+    float x, y;
+    dx = x1 - x0;
+    dy = y1 - y0;
+    x = x0;
+    y = y0;
+
+    steps = abs(dx) > abs(dy) ? abs(dx) : abs(dy);
+    float x_inr, y_inr;
+
+    x_inr = dx / (float)steps;
+    y_inr = dy / (float)steps;
+
+    for(int i = 0; i <= steps; ++i) {
+        SDL_RenderDrawPoint(renderer, round(x), round(y));
+        x += x_inr;
+        y += y_inr;
+        
+    }
+    
 }

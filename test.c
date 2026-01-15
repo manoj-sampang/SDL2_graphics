@@ -8,6 +8,7 @@
 int choice, n1, n2;
 float **arr, **brr;
 float sx, sy; 
+float theta;
 float dx, dy;
 int x1, y_1, x2, y_2, x3, y_3;
 
@@ -46,13 +47,20 @@ void input(int n) {
         
     }
     if(n == 3) {
+        printf("Rotation Input\n");
+
+        printf("Enter thetha(0) to rotate = ");
+        scanf("%f", &theta);
+
+    }
+    if(n == 4) {
         printf("Scaling Input\n");
                   
         printf("Enter scaling factors (sx sy): ");  
         scanf("%f %f", &sx, &sy);
         
     }       
-    if(n == 4) {
+    if(n == 5) {
         printf("Triangle Input\n");
         printf("Enter the coordinates of the triangle (x1 y1 x2 y2 x3 y3): ");  
         printf("Point 1(x1, y1): ");
@@ -81,9 +89,10 @@ int main() {
             printf("=== TRANSFORMATIN ===\n");
             printf("1. MATRIX MULTIPLY\n");
             printf("2. Translate\n");
-            printf("3. Scale\n");
-            printf("4. Draw Traingle\n");
-            printf("5. Exit\n");
+            printf("3. Rotate\n");
+            printf("4. Scale\n");
+            printf("5. Draw Traingle\n");
+            printf("6. Exit\n");
             printf("Enter choice(1 - 5): ");
             scanf("%d", &choice);
             switch(choice) {
@@ -98,17 +107,23 @@ int main() {
                     translation(dx, dy);
                     break;
                 case 3:
+                    printf("--- Rotation ---\n");
+                    input(choice);
+                    rotation(theta);
+                    break;
+
+                case 4:
                     printf("--- Scaling ---\n");
                     input(choice);
                     scaling(sx, sy);
                     break;
-                case 4:
+                case 5:
                     printf("--- Triangle ---\n");
                     input(choice);
                     break;
-                case 5:
+                case 6:
                     printf("Exiting...\n");
-                    for(int i = 0; i < n1 ++i) {
+                    for(int i = 0; i < n1; ++i) {
                         free(arr[i]);
                         free(brr[i]);
                     }
@@ -123,7 +138,7 @@ int main() {
                     printf("Invalid Choice\n");
                     break;      
             }
-        }while(choice != 5 && choice != 4);
+        }while(choice != 5 && choice != 6);
     
             
             
@@ -144,7 +159,7 @@ int main() {
                 }
                 SDL_RenderPresent(renderer);
             }
-        for(int i = 0; i < n1 ++i) {
+        for(int i = 0; i < n1; ++i) {
                 free(arr[i]);
                 free(brr[i]);
         }

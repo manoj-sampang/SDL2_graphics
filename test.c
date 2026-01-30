@@ -76,97 +76,98 @@ void input(int n) {
 int main() {
     SDL_Init(SDL_INIT_VIDEO);
         
-        SDL_Window *window = SDL_CreateWindow(
-            "Transformation", 
-            SDL_WINDOWPOS_CENTERED,
-            SDL_WINDOWPOS_CENTERED,
-            600, 480, 
-            0
-        );
-        SDL_Renderer *renderer = SDL_CreateRenderer(window, -1, SDL_RENDERER_ACCELERATED);
-        
-        do{
-            printf("=== TRANSFORMATIN ===\n");
-            printf("1. MATRIX MULTIPLY\n");
-            printf("2. Translate\n");
-            printf("3. Rotate\n");
-            printf("4. Scale\n");
-            printf("5. Draw Traingle\n");
-            printf("6. Exit\n");
-            printf("Enter choice(1 - 5): ");
-            scanf("%d", &choice);
-            switch(choice) {
-                case 1:
-                    printf("--- Matrix Multiply ---\n");
-                    input(choice);
-                    matrixMultiply(arr, brr, n1);
-                    break;
-                case 2:
-                    printf("--- Translation ---\n");
-                    input(choice);
-                    translation(dx, dy);
-                    break;
-                case 3:
-                    printf("--- Rotation ---\n");
-                    input(choice);
-                    rotation(theta);
-                    break;
-
-                case 4:
-                    printf("--- Scaling ---\n");
-                    input(choice);
-                    scaling(sx, sy);
-                    break;
-                case 5:
-                    printf("--- Triangle ---\n");
-                    input(choice);
-                    break;
-                case 6:
-                    printf("Exiting...\n");
-                    for(int i = 0; i < n1; ++i) {
-                        free(arr[i]);
-                        free(brr[i]);
-                    }
-                    free(arr);
-                    free(brr);
-                    SDL_DestroyRenderer(renderer);
-                    SDL_DestroyWindow(window);
-                    SDL_Quit();
-                    exit(0);
-                    break;
-                default:
-                    printf("Invalid Choice\n");
-                    break;      
-            }
-        }while(choice != 5 && choice != 6);
+    SDL_Window *window = SDL_CreateWindow(
+        "Transformation", 
+        SDL_WINDOWPOS_CENTERED,
+        SDL_WINDOWPOS_CENTERED,
+        1000, 500, 
+        0
+    );
+    SDL_Renderer *renderer = SDL_CreateRenderer(window, -1, SDL_RENDERER_ACCELERATED);
     
-            
-            
-            
-            
-            int running = 1;
-            SDL_Event event;
-            while(running) {
-                while(SDL_PollEvent(&event)) {
-                    if(event.type == SDL_QUIT)
-                    running = 0;
-                }
-                SDL_SetRenderDrawColor(renderer, 0, 0, 0, 255);
-                SDL_RenderClear(renderer);
-                if(choice == 4) {
-                    SDL_SetRenderDrawColor(renderer, 255, 255, 255, 255);
-                    drawTriangle(renderer, x1, y_1, x2, y_2, x3, y_3);
-                }
-                SDL_RenderPresent(renderer);
-            }
-        for(int i = 0; i < n1; ++i) {
-                free(arr[i]);
-                free(brr[i]);
+    int running = 1;
+    SDL_Event event;
+    
+    do{
+        printf("=== TRANSFORMATIN ===\n");
+        printf("1. MATRIX MULTIPLY\n");
+        printf("2. Translate\n");
+        printf("3. Rotate\n");
+        printf("4. Scale\n");
+        printf("5. Draw Triangle\n");
+        printf("6. Demonstrate Window to Viewport Transformation\n");
+        printf("7. Exit\n");
+        printf("Enter choice(1 - 7): ");
+        scanf("%d", &choice);
+        
+        switch(choice) {
+            case 1:
+                printf("--- Matrix Multiply ---\n");
+                input(choice);
+                matrixMultiply(arr, brr, n1);
+                break;
+            case 2:
+                printf("--- Translation ---\n");
+                input(choice);
+                translation(dx, dy);
+                break;
+            case 3:
+                printf("--- Rotation ---\n");
+                input(choice);
+                rotation(theta);
+                break;
+            case 4:
+                printf("--- Scaling ---\n");
+                input(choice);
+                scaling(sx, sy);
+                break;
+            case 5:
+                printf("--- Triangle ---\n");
+                input(choice);
+                break;
+            case 6:
+                printf("--- Window to Viewport Transformation ---\n");
+                break;
+            case 7: 
+                printf("Exiting...\n");
+                running = 0;
+                break;
+            default:
+                printf("Invalid Choice\n");
+                break;      
         }
-        free(arr);
-        free(brr);
-        SDL_DestroyRenderer(renderer);
-        SDL_DestroyWindow(window);
-        SDL_Quit();
-        return 0;
+    }while(choice != 6 && choice != 7);
+    
+    // Rendering loop
+    while(running) {
+        while(SDL_PollEvent(&event)) {
+            if(event.type == SDL_QUIT)
+                running = 0;
+        }
+        
+        SDL_SetRenderDrawColor(renderer, 0, 0, 0, 255);
+        SDL_RenderClear(renderer);
+        
+        if(choice == 5) {
+            SDL_SetRenderDrawColor(renderer, 255, 255, 255, 255);
+            drawTriangle(renderer, x1, y_1, x2, y_2, x3, y_3);
+        }
+        else if(choice == 6) {
+            SDL_SetRenderDrawColor(renderer, 255, 255, 255, 255);
+            demonstrateWindowToViewPort(renderer);
+        }
+        
+        SDL_RenderPresent(renderer);
     }
+    
+    for(int i = 0; i < n1; ++i) {
+        free(arr[i]);
+        free(brr[i]);
+    }
+    free(arr);
+    free(brr);
+    SDL_DestroyRenderer(renderer);
+    SDL_DestroyWindow(window);
+    SDL_Quit();
+    return 0;
+}

@@ -13,6 +13,12 @@ void rotation(float);
 void scaling(float, float);
 void drawTriangle(SDL_Renderer *, int, int, int, int, int, int);
 void DDA(SDL_Renderer *, int, int, int, int);
+void drawRectangle(SDL_Renderer *, int, int, int, int);
+void windowToViewPort(int xw, int yw, int xwmin, int ywmin, int xwmax, int ywmax, 
+                      int xvmin, int yvmin, int xvmax, int yvmax, int *xv, int *yv);
+void drawTransformedTriangle(SDL_Renderer *renderer, 
+                             int xwmin, int ywmin, int xwmax, int ywmax,
+                             int xvmin, int yvmin, int xvmax, int yvmax);
 
-
+void demonstrateWindowToViewPort(SDL_Renderer *renderer);
 #endif
